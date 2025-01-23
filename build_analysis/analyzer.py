@@ -37,7 +37,7 @@ class BuildAnalyzer:
     async def process_hero_builds(self, hero_id: int, hero_name: str):
         """Process and analyze builds for a specific hero."""
         # Fetch and process builds
-        all_hero_builds = await self.api.get_hero_builds(hero_id)
+        all_hero_builds = [b for b in await self.api.get_hero_builds(hero_id) if len(b["hero_build"]["name"]) > 2]
 
         # Create lookup dictionaries
         hero_builds_by_id = {(b["hero_build"]["hero_build_id"], b["hero_build"]["version"]): b for b in all_hero_builds}
@@ -45,7 +45,9 @@ class BuildAnalyzer:
         processed_builds = {
             (b["hero_build_id"], b["version"]): self.get_build_items(b)
             for b in (b["hero_build"] for b in all_hero_builds)
+            if not b["name"].startswith("Copy")
         }
+        processed_builds = {k: v for k, v in processed_builds.items() if len(v) <= 40}
 
         # Fetch winrates concurrently
         scores = await self._fetch_build_scores(hero_id, hero_name, processed_builds)
@@ -68,7 +70,7 @@ class BuildAnalyzer:
         valid_scores = {
             build: score
             for build, score in scores.items()
-            if score and score["total"] > self._calculate_top_percentile(scores, 0.01)
+            if score and score["total"] >= self._calculate_top_percentile(scores, 0.01)
         }
 
         # Store top build
