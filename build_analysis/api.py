@@ -6,7 +6,7 @@ import httpx
 ASSETS_API = "https://assets.deadlock-api.com"
 ANALYTICS_API = "https://analytics.deadlock-api.com"
 DATA_API = "https://data.deadlock-api.com"
-MIN_MATCH_ID = 29944292
+MIN_MATCH_ID = 31611558
 MIN_BADGE_LEVEL = 90
 MAX_DISTANCE = 1
 MIN_USED_ITEMS = 15
