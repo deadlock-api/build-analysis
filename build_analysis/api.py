@@ -10,7 +10,8 @@ MIN_MATCH_ID = 31611558
 MIN_BADGE_LEVEL = 90
 MAX_DISTANCE = 1
 MIN_USED_ITEMS = 15
-MAX_CONCURRENT = 40
+MAX_UNUSED_ITEMS = 15
+MAX_CONCURRENT = 120
 API_KEY = os.getenv("DEADLOCK_API_KEY")
 
 
@@ -49,6 +50,7 @@ class DeadlockAPI:
                             "min_badge_level": MIN_BADGE_LEVEL,
                             "max_distance": MAX_DISTANCE,
                             "min_used_items": MIN_USED_ITEMS,
+                            "max_unused_items": MAX_UNUSED_ITEMS,
                             "distance_function": "non_matching_items",
                             "k_most_similar_builds": 100_000,
                             **({"api_key": API_KEY} if API_KEY else {}),

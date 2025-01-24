@@ -47,7 +47,6 @@ class BuildAnalyzer:
             for b in (b["hero_build"] for b in all_hero_builds)
             if not b["name"].startswith("Copy")
         }
-        processed_builds = {k: v for k, v in processed_builds.items() if len(v) <= 40}
 
         # Fetch winrates concurrently
         scores = await self._fetch_build_scores(hero_id, hero_name, processed_builds)
@@ -70,7 +69,7 @@ class BuildAnalyzer:
         valid_scores = {
             build: score
             for build, score in scores.items()
-            if score and score["total"] >= self._calculate_top_percentile(scores, 0.01)
+            if score and score["total"] >= self._calculate_top_percentile(scores, 0.05)
         }
 
         # Store top build
